@@ -1,0 +1,76 @@
+{
+    "name": "qobo/project-template",
+    "description": "Template for new PHP projects",
+    "keywords": ["project", "template", "setup", "rapid-development", "dry"],
+    "type": "project",
+    "license": "MIT",
+    "homepage": "https://www.qobo.biz",
+    "authors": [
+        {
+            "name": "Qobo Ltd",
+            "email": "support@qobo.biz",
+            "homepage": "https://www.qobo.biz",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/QoboLtd/project-template/issues",
+        "source": "https://github.com/QoboLtd/project-template"
+    },
+    "config": {
+        "sort-packages": true,
+        "optimize-autoloader": true,
+        "platform": {
+            "php": "7.1"
+        }
+    },
+    "require": {
+        "aws/aws-sdk-php": "^3.52",
+        "brainmaestro/composer-git-hooks": "^2.4",
+        "pyrech/composer-changelogs": "^1.4",
+        "qobo/qobo-robo": "^2.0",
+        "josegonzalez/dotenv": "^3.2"
+    },
+    "require-dev": {
+        "brianium/paratest": "*",
+        "phpstan/phpstan": "^0.10.3",
+        "phpstan/phpstan-phpunit": "^0.10.0",
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "*",
+        "thecodingmachine/phpstan-strict-rules": "^0.11.0"
+    },
+    "suggest": {
+        "ext-xdebug": "Allows code coverage reports and advanced debugging"
+    },
+    "autoload": {
+        "psr-4": {
+            "Qobo\\Robo\\": "build/Robo/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "App\\Test\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": [
+            "phpcs",
+            "phpunit --no-coverage"
+        ],
+        "test-coverage": [
+            "phpcs",
+            "phpunit"
+        ],
+        "post-install-cmd": "cghooks add",
+        "post-update-cmd": "cghooks update"
+    },
+    "scripts-descriptions": {
+        "test": "Runs phpcs and phpunit without coverage",
+        "test-coverage": "Runs phpcs and phpunit with coverage enabled"
+    },
+    "extra": {
+        "hooks": {
+            "pre-commit": "PHPCS_FILES=$(git diff-index --name-only --cached --diff-filter=ACMR HEAD 'tests/**.php' 'src/**.php' 'webroot/**.php'); if [ \"$PHPCS_FILES\" ]; then ./vendor/bin/phpcs $PHPCS_FILES; fi"
+        }
+    }
+}
